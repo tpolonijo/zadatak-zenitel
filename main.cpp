@@ -5,9 +5,10 @@
 #include <stdio.h>
 #include <QTextStream>
 #include <QThread>
-#include "mythread.h"
 #include <QtCore>
 #include <QtDebug>
+#include "mythread.h"
+#include <unos.h>
 
 using namespace std;
 
@@ -16,13 +17,14 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     QTextStream stream(stdout);
 
-    qInfo() << "Application Thread" << a.thread();
-    QString file_name = ("/home/toni/qt_projects/input_files/a1.txt");
+    //qInfo() << "Application Thread" << a.thread();
     Unos mUnos;
     Unos *ptr = &mUnos;
     MyThread mThread(ptr);
     mThread.start();
     mThread.wait();
     ptr->ispis();
+    QTest::qExec(&mUnos);
+    QTest::qExec(&mThread);
     return a.exec();
 }
