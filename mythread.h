@@ -9,6 +9,7 @@
 
 class MyThread : public QThread
 {
+    Q_OBJECT
 public:
     QByteArray ispis_buffera;
     Unos *mUnosPtr;
@@ -16,13 +17,17 @@ public:
     MyThread(Unos *mUnosPtr) {
         this->mUnosPtr = mUnosPtr;
     }
+    //~MyThread();
 
 signals:
+    void done();
 
 public slots:
-    void run();
+
 private slots:
 
+protected:
+    void run();
 };
 
 #endif // MYTHREAD_H

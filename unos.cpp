@@ -16,10 +16,10 @@ void Unos::setTestIspis(QByteArray test_ispis)
 
 int Unos::citanje_provjera(QString file_name) {
     QTextStream stream(stdout);
-    //stream << "Unos::citanje_provjera " << QThread::currentThread();
+    //qInfo() << "Unos::citanje_provjera " << QThread::currentThread();
     QByteArray line;
     QBuffer buffer(&ispis_buffera);
-    QRegularExpression re("^\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d ((\\w+-\\w+ \\w+-\\w+)|(\\w+ \\w+ \\w+ \\w+)|([A-Z][a-z]+ [A-Z][a-z]+))$");
+    QRegularExpression re("^(\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d) ((\\w+-\\w+ \\w+-\\w+)|(\\w+ \\w+ \\w+ \\w+)|([A-Z][a-z]+ [A-Z][a-z]+))$");
     QRegularExpressionMatch match;
     QFile file(file_name);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -32,6 +32,7 @@ int Unos::citanje_provjera(QString file_name) {
         match = re.match(line, 0, QRegularExpression::NormalMatch);
         if (match.hasMatch()) {
             buffer.write(line);
+            //stream << match.captured(1) << Qt::endl;
         }
     }
     buffer.close();
@@ -46,7 +47,7 @@ void Unos::testIspis()
 
 void Unos::ispis() {
     QTextStream stream(stdout);
-    //stream << "Unos::ispis " << QThread::currentThread();
+    //qInfo() << "Unos::ispis " << QThread::currentThread();
     stream << ispis_buffera << Qt::endl;
     stream << Qt::endl;
 }
